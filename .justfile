@@ -5,6 +5,7 @@ cmds := "github.com/quay/clair/v4/cmd/clair github.com/quay/clair/v4/cmd/clairct
 setup: && fetch
 	grep -q '{{mrconfig}}' ~/.mrtrust || echo '{{mrconfig}}' >> ~/.mrtrust
 	mr checkout
+	mkdir -p {{GOBIN}}
 
 fetch:
 	mr -q fetch
