@@ -1,0 +1,6 @@
+*
+!.gitignore
+!.mrconfig
+!.justfile
+!README.md
+!go.work

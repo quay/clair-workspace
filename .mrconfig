@@ -1,0 +1,18 @@
+[DEFAULT]
+jobs = 4
+lib = export REPO_NAME=$(basename ${MR_REPO}) GH_USER=$(gh api -q .login user)
+post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --unset remote.origin.fetch
+post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --add remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+post_checkout_append = git --git-dir=${MR_REPO}/.git remote add fork https://github.com/${GH_USER}/${REPO_NAME}.git
+post_checkout_append = git --git-dir=${MR_REPO}/.git config --local push.default current
+post_checkout_append = git --git-dir=${MR_REPO}/.git config --local remote.pushDefault fork
+post_checkout_append = echo origin: $(git --git-dir=${MR_REPO}/.git remote get-url origin)
+post_checkout_append = echo fork: $(git --git-dir=${MR_REPO}/.git remote get-url fork)
+
+[clair]
+checkout = git clone https://github.com/quay/clair.git
+[claircore]
+checkout = git clone https://github.com/quay/claircore.git
+[zlog]
+checkout = git clone https://github.com/quay/zlog.git
