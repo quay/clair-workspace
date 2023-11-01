@@ -4,3 +4,5 @@
 !.justfile
 !README.md
 !go.work
+!etc
+!etc/**
