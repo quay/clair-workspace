@@ -1,6 +1,7 @@
 *
 !.gitignore
 !.mrconfig
+!mrconfig.patch
 !.justfile
 !README.md
 !go.work

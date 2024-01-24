@@ -1,0 +1,26 @@
+diff --git a/.mrconfig b/.mrconfig
+index b5e3216..1f8e635 100644
+--- a/.mrconfig
++++ b/.mrconfig
+@@ -1,14 +1,15 @@
+ [DEFAULT]
+ jobs = 4
+ lib = export REPO_NAME=$(basename ${MR_REPO}) GH_USER=$(gh api -q .login user)
+-post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --unset remote.origin.fetch
+-post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+-post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --add remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+-post_checkout_append = git --git-dir=${MR_REPO}/.git remote add fork https://github.com/${GH_USER}/${REPO_NAME}.git
++post_checkout_append = git --git-dir=${MR_REPO}/.git remote rename origin upstream
++post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --unset remote.upstream.fetch
++post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --add remote.upstream.fetch '+refs/pull/*/head:refs/remotes/upstream/pr/*'
++post_checkout_append = git --git-dir=${MR_REPO}/.git config --local --add remote.upstream.fetch '+refs/heads/*:refs/remotes/upstream/*'
++post_checkout_append = git --git-dir=${MR_REPO}/.git remote add origin https://github.com/${GH_USER}/${REPO_NAME}.git
+ post_checkout_append = git --git-dir=${MR_REPO}/.git config --local push.default current
+-post_checkout_append = git --git-dir=${MR_REPO}/.git config --local remote.pushDefault fork
++post_checkout_append = git --git-dir=${MR_REPO}/.git config --local remote.pushDefault origin
++post_checkout_append = echo upstream: $(git --git-dir=${MR_REPO}/.git remote get-url upstream)
+ post_checkout_append = echo origin: $(git --git-dir=${MR_REPO}/.git remote get-url origin)
+-post_checkout_append = echo fork: $(git --git-dir=${MR_REPO}/.git remote get-url fork)
+ 
+ [clair]
+ checkout = git clone https://github.com/quay/clair.git
