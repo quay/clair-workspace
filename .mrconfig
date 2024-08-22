@@ -16,3 +16,5 @@ checkout = git clone https://github.com/quay/clair.git
 checkout = git clone https://github.com/quay/claircore.git
 [zlog]
 checkout = git clone https://github.com/quay/zlog.git
+[goval-parser]
+checkout = git clone https://github.com/quay/goval-parser.git
