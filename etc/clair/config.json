@@ -1,0 +1,11 @@
+{
+  "indexer": {
+    "migrations": true
+  },
+  "matcher": {
+    "migrations": true
+  },
+  "notifier": {
+    "migrations": true
+  }
+}

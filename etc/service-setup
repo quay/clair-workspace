@@ -1,0 +1,26 @@
+#!/usr/bin/zsh
+emulate -L zsh
+set -euo pipefail
+
+[[ -e =rsync ]]
+rsync -r ${WORKSPACE}/bin ${RUNTIME_DIRECTORY}/
+print copied binaries
+
+rsync -r ${WORKSPACE}/etc/clair/ ${CONFIGURATION_DIRECTORY}/
+print copied configs
+
+[[ -e =jq ]]
+jq -n -f =(<<-'.'
+	["indexer", "matcher", "notifier"] | map({
+		op:"add",
+		path:"/\(.)/connstring",
+		value:"user=postgres dbname=\(.) host=127.60.60.1 port=5432 sslmode=disable",
+	})
+.
+	) >${CONFIGURATION_DIRECTORY}/config.json.d/90-database.json-patch
+print generated database config
+
+[[ -e =podman ]]
+for n in indexer matcher notifier
+	podman exec systemd-clair-postgresql createdb -U postgres $n ||:
+print created databases

@@ -1,0 +1,11 @@
+[Unit]
+Description=Clair postgresql instance
+StopWhenUnneeded=true
+
+[Container]
+Image=docker.io/library/postgres:alpine
+NoNewPrivileges=no
+DropCapability=
+Environment=POSTGRES_HOST_AUTH_METHOD=trust
+Volume=clair-postgresql.volume:/var/lib/postgresql/data
+PublishPort=127.60.60.1:15432:5432

@@ -1,0 +1,25 @@
+[Unit]
+After=clair-postgresql-proxy.socket
+Wants=clair-postgresql-proxy.socket
+StartLimitBurst=10
+
+[Service]
+#ProtectHome=tmpfs
+RuntimeDirectory=%p
+ConfigurationDirectory=%p
+WorkingDirectory=%t/%p
+PrivateTmp=true
+
+Restart=on-failure
+RestartSec=1s
+RestartSteps=5
+RestartMaxDelaySec=15s
+
+EnvironmentFile=%E/%p/env
+Environment=CLAIR_CONF=%E/%p/config.json
+Environment=CLAIR_MODE=%i
+ExecStartPre=+/usr/bin/env ${WORKSPACE}/etc/service-setup
+ExecStart=%t/%p/bin/clair
+
+[Install]
+DefaultInstance=combo

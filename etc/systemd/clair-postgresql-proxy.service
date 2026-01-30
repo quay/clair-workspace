@@ -1,0 +1,8 @@
+[Unit]
+Requires=clair-postgresql.service
+After=clair-postgresql.service
+Requires=clair-postgresql-proxy.socket
+After=clair-postgresql-proxy.socket
+
+[Service]
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd --exit-idle-time=5m 127.60.60.1:15432
