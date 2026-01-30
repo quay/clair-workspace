@@ -5,7 +5,11 @@ export GOBIN := justfile_directory() / "bin"
 _default:
 	just --list
 
-# Setup the repos. 𝟏 Run this first!
+# Patch setup. 𝟎 If you want to use the patch.
+patch-setup:
+	patch -p1 < mrconfig.patch
+
+# Setup the repos. 𝟏 Run this first (unless you want the patch - run that first, then this)!
 setup: && fetch
 	grep -q '{{mrconfig}}' ~/.mrtrust || echo '{{mrconfig}}' >> ~/.mrtrust
 	mr checkout
